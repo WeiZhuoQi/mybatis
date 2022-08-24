@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--引入外部配置文件-->
+    <properties resource="db.properties" />
+    
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--显示开启二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.my.pojo.User" alias="User"/>
+        <typeAlias type="com.my.pojo.Provider" alias="Provider"/>
+        <typeAlias type="com.my.pojo.Role" alias="Role"/>
+        <typeAlias type="com.my.pojo.Bill" alias="Bill"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper class="com.my.dao.user.UserMapper"/>
+        <mapper class="com.my.dao.bill.BillMapper"/>
+        <mapper class="com.my.dao.provider.ProviderMapper"/>
+        <mapper class="com.my.dao.role.RoleMapper"/>
+    </mappers>
+</configuration>

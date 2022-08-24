@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.my.dao.bill.BillMapper">
+
+    <!--增加订单-->
+    <insert id="add" parameterType="Bill">
+        insert into smbms_bill(billCode,productName,productDesc,productUnit,productCount,totalPrice,isPayment,createdBy,creationDate,providerId)
+        values(#{billCode},#{productName},#{productDesc},#{productUnit},#{productCount},#{totalPrice},#{isPayment},#{createdBy},#{creationDate},#{providerId})
+    </insert>
+
+    <!--通过查询条件获取供应商列表-模糊查询-->
+    <select id="getBillList" parameterType="Bill" resultType="Bill">
+        select * from smbms_bill
+        <where>
+            <if test="id!=0">
+                id like concat('%',#{id},'%')
+            </if>
+            <if test="billCode!=null">
+                and billCode like concat('%',#{billCode},'%')
+            </if>
+            <if test="productName!=null">
+                and productName like concat('%',#{productName},'%')
+            </if>
+            <if test="productDesc!=null">
+                and productDesc like concat('%',#{productDesc},'%')
+            </if>
+            <if test="productUnit!=null">
+                and productUnit like concat('%',#{productUnit},'%')
+            </if>
+            <if test="productCount!=0">
+                and productCount like concat('%',#{productCount},'%')
+            </if>
+            <if test="totalPrice!=0">
+                and totalPrice like concat('%',#{totalPrice},'%')
+            </if>
+            <if test="isPayment!=0">
+                and isPayment like concat('%',#{isPayment},'%')
+            </if>
+            <if test="providerId!=0">
+                and providerId like concat('%',#{providerId},'%')
+            </if>
+            <if test="createdBy!=0">
+                and createdBy like concat('%',#{createdBy},'%')
+            </if>
+            <if test="creationDate!=null">
+                and creationDate like concat('%',#{creationDate},'%')
+            </if>
+            <if test="modifyBy!=0">
+                and modifyBy like concat('%',#{modifyBy},'%')
+            </if>
+            <if test="modifyDate!=null">
+                and modifyDate like concat('%',#{modifyDate},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--删除Bill-->
+    <delete id="deleteBillById" parameterType="_int">
+        delete from smbms_bill where id = #{id}
+    </delete>
+
+    <!--根据id获取订单信息-->
+    <select id="getBillById" parameterType="_int" resultType="Bill">
+        select * from smbms_bill where id = #{id}
+    </select>
+
+    <!--修改订单信息-->
+    <update id="modify" parameterType="Bill">
+        update smbms_bill
+        <set>
+            <if test="billCode!=null">
+                billCode = #{billCode},
+            </if>
+            <if test="productName!=null">
+                productName = #{productName},
+            </if>
+            <if test="productDesc!=null">
+                productDesc = #{productDesc},
+            </if>
+            <if test="productUnit!=null">
+                productUnit = #{productUnit},
+            </if>
+            <if test="productCount!=0">
+                productCount = #{productCount},
+            </if>
+            <if test="totalPrice!=0">
+                totalPrice = #{totalPrice},
+            </if>
+            <if test="isPayment!=0">
+                isPayment = #{isPayment},
+            </if>
+            <if test="providerId!=0">
+                providerId = #{providerId},
+            </if>
+            <if test="modifyBy!=0">
+                modifyBy = #{modifyBy},
+            </if>
+            <if test="modifyDate!=null">
+                modifyDate = #{modifyDate}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--根据供应商ID查询订单数量-->
+    <select id="getBillCountByProviderId" parameterType="_int" resultType="bigdecimal">
+        select count(*) from smbms_bill where providerId = #{providerId}
+    </select>
+
+    <!--通过条件查询-订单表记录数-->
+    <select id="getBillCount" resultType="_int">
+        select count(*) from smbms_bill
+        <where>
+            <if test="productName!=null">
+                productName = #{productName}
+            </if>
+            <if test="providerId!=0">
+                and providerId = #{providerId}
+            </if>
+            <if test="isPayment!=0">
+                and isPayment = #{isPayment}
+            </if>
+        </where>
+    </select>
+
+    <!--根据供应商Id删除订单信息-->
+    <delete id="deleteBillByProviderId" parameterType="_int">
+        delete from smbms_bill where providerId = #{providerId}
+    </delete>
+
+</mapper>
