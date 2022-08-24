@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * add，增加订单
+ * add，增加了订单
  * getBillList，通过查询条件获取供应商列表-模糊查询
  * delId删除Bill
  * modify，修改订单信息
